@@ -1,0 +1,100 @@
+{% extends "_base.html" %}
+{% block body %}
+<div class="center">
+    <div class="create-user-button">
+        <form method="POST" id="create-user-form">
+            <label>
+                Login
+                <input id="create-user-login" type="text" name="login">
+            </label>
+            <label>
+                Password
+                <input id="create-user-password" type="password" name="password">
+            </label>
+            <label>
+                Role
+                <select id="create-user-role" name="role">
+                    <option value="0" selected>User</option>
+                    <option value="1">Admin</option>
+                </select>
+            </label>
+            <input type="submit" value="Create">
+        </form>
+    </div>
+    <button id="logout-button">Logout</button>
+    <hr>
+    <div class="users-table">
+        <div class="header-row">
+            <div class="user-id">
+                ID
+            </div>
+            <div class="user-login">
+                Login
+            </div>
+            <div class="user-password">
+                Password
+            </div>
+            <div class="user-role">
+                Role
+            </div>
+            <div class="edit-user-cell"></div>
+            <div class="delete-user-cell"></div>
+        </div>
+        {% for user in users %}
+        <div class="view-row">
+            <div class="user-id">
+                {{ user.id }}
+            </div>
+            <div class="user-login">
+                {{ user.login }}
+            </div>
+            <div class="user-password">
+                {{ user.password }}
+            </div>
+            <div class="user-role">
+                {{ "User" if user.role == 0 else "Admin" }}
+            </div>
+            <div class="edit-user-cell button">
+                <button>Edit</button>
+            </div>
+            <div class="delete-user-cell button">
+                <form class="delete-user-form">
+                    <input class="user-id-input" type="text" name="user_id" value="{{user.id}}" hidden>
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+        <div class="edit-row" style="display: none">
+            <div class="user-id">
+                {{ user.id }}
+            </div>
+            <div class="user-login">
+                <input type="text" name="login" value="{{ user.login }}">
+            </div>
+            <div class="user-password">
+                <input type="text" name="password" value="{{ user.password }}">
+            </div>
+            <div class="user-role">
+                <select id="create-user-role" name="role">
+                    <option value="0" {{ 'selected' if user.role == 0 else '' }}>User</option>
+                    <option value="1" {{ 'selected' if user.role == 1 else '' }}>Admin</option>
+                </select>
+            </div>
+            <div class="save-edited-user-cell button">
+                <button>Save</button>
+            </div>
+            <div class="delete-user-cell button">
+                <form method="POST" class="delete-user-form">
+                    <input class="user-id-input" type="text" name="user_id" value="{{user.id}}" hidden>
+                    <button type="submit" value="Delete">Delete</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='scripts/users-page.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,32 @@
+.center {
+    display: grid;
+    justify-content: center;
+}
+
+.users-table {
+    display: flex;
+    flex-direction: column;
+    width: 800px;
+    /* grid-template-columns: repeat(6, auto); */
+    /* justify-content: space-around; */
+    /* row-gap: 10px; */
+    background-color: #eeeeee;
+}
+
+.users-table .view-row,
+.users-table .edit-row,
+.users-table .header-row {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(6, 16%);
+}
+
+.users-table .view-row .button,
+.users-table .edit-row .button,
+.users-table .header-row .button {
+    justify-self: center;
+}
+
+.create-user-button {
+    margin-bottom: 10px;
+}
