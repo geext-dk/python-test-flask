@@ -5,8 +5,12 @@ document.addEventListener('DOMContentLoaded', function () {
         r.open('POST', '/api/logout', true);
         r.setRequestHeader('Content-Type', 'application/json');
         r.onreadystatechange = function () {
-            if (r.readyState != 4 || (r.status != 200 && r.status != 204))
+            if (r.readyState != 4) {
                 return;
+            } else if (r.status != 200 && r.status != 204) {
+                alert(r.responseText);
+                return;
+            }
             window.location.href = "/login";
             window.location.reload();
         };
@@ -40,8 +44,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 r.open("PUT", "/api/users/" + userId, true);
                 r.setRequestHeader('Content-Type', 'application/json');
                 r.onreadystatechange = function () {
-                    if (r.readyState != 4 || (r.status != 200 && r.status != 204))
+                    if (r.readyState != 4) {
                         return;
+                    } else if (r.status != 200 && r.status != 204) {
+                        alert(r.responseText);
+                        return;
+                    }
                     window.location.reload();
                 };
             
@@ -66,8 +74,12 @@ document.addEventListener('DOMContentLoaded', function () {
         r.open("POST", "/api/users", true);
         r.setRequestHeader('Content-Type', 'application/json');
         r.onreadystatechange = function () {
-            if (r.readyState != 4 || (r.status != 200 && r.status != 204))
+            if (r.readyState != 4) {
                 return;
+            } else if (r.status != 200 && r.status != 204) {
+                alert(r.responseText);
+                return;
+            }
             location.reload();
         };
 
@@ -90,8 +102,12 @@ document.addEventListener('DOMContentLoaded', function () {
             var r = new XMLHttpRequest();
             r.open("DELETE", "/api/users/" + userId, true);
             r.onreadystatechange = function () {
-                if (r.readyState != 4 || (r.status != 200 && r.status != 204))
+                if (r.readyState != 4) {
                     return;
+                } else if (r.status != 200 && r.status != 204) {
+                    alert(r.responseText);
+                    return;
+                }
                 window.location.reload();
             };
             r.send();

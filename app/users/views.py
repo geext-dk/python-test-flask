@@ -35,11 +35,18 @@ def api_users():
         if "login" not in json_data or "password" not in json_data or "role" not in json_data:
             return "Invalid JSON payload", 400
         
-        login = json_data["login"]
+        login = json_data["login"].strip()
+        if len(login) < 1:
+            return "Login must not be empty", 400
+            
+        existing_user = g.db.query(User).filter_by(login=login).first()
+        if existing_user != None:
+            return "A user with the same login already exists", 400
+
         password = json_data["password"]
         role_str = json_data["role"]
-        if not role_str.isdigit():
-            return "A role must be a positive integer number", 400
+        if not role_str.isdigit() or not Role.is_valid(int(role_str)):
+            return "A role must be 0 or 1", 400
 
         role = int(role_str)
 
@@ -70,7 +77,25 @@ def user_actions(user_id):
         return "", 204
     else:
         json_data = json.loads(request.data.decode("utf-8"))
-        user.lgoin = json_data["login"]
+        if "login" not in json_data or "password" not in json_data or "role" not in json_data:
+            return "Invalid JSON payload", 400
+
+        new_login = json_data["login"].strip()
+        if len(new_login) < 1:
+            return "Login must not be empty", 400
+
+        if new_login != user.login:
+            existing_user = g.db.query(User).filter_by(login=new_login).first()
+            if existing_user != None:
+                return "A user with the same login already exists", 400
+
+        if len(json_data["password"]) < 1:
+            return "Password must not be empty", 400
+        
+        if not json_data["role"].isdigit() or not Role.is_valid(int(json_data["role"])):
+            return "Invalid role", 400
+        
+        user.login = new_login
         user.password = json_data["password"]
         user.role = int(json_data["role"])
 

@@ -15,6 +15,10 @@ class Role:
     USER = 0
     ADMIN = 1
 
+    @staticmethod
+    def is_valid(role):
+        return role == 0 or role == 1
+
 class User(Base):
     __tablename__ = "users"
 
